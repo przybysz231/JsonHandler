@@ -1,6 +1,7 @@
 package com.Michal.HomeworkTask.Controller;
 
 import com.Michal.HomeworkTask.DAO.BooksDAO;
+import com.Michal.HomeworkTask.Exception.NotFoundException;
 import com.Michal.HomeworkTask.Model.Book;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BookController {
     private BooksDAO booksDAO;
-
+    private NotFoundException notFoundException;
 
     @Autowired
     public BookController(BooksDAO booksDAO) {
@@ -29,22 +30,15 @@ public class BookController {
     @GetMapping(value = "api/book/{isbn}", produces = "application/json;charset=UTF-8")
     public JSONObject bookIsbnGet(@PathVariable("isbn") String isbn) {
         JSONObject dataJsonObject = booksDAO.getJSONData();
-        if (isbn.length() == 13) {
-            log.info("done");
+        if (isbn.length() == 13 && dataJsonObject.toJSONString().contains(isbn)) {
             return booksDAO.getBookByIsbn(dataJsonObject, isbn);
-        } else return booksDAO.getBookById(dataJsonObject, isbn);
+        }
+        else if (dataJsonObject.toJSONString().contains(isbn)){
+            return booksDAO.getBookById(dataJsonObject, isbn);
+        }
+        else throw new NotFoundException();
 
     }
-//    @GetMapping(value = "api/book/{isbn}", produces = "application/json;charset=UTF-8")
-//    public JSONObject bookIsbnGet(@PathVariable("isbn") String isbn) {
-//    JSONObject dataJsonObject = booksDAO.getJSONData();
-//    return booksDAO.getBookByIsbn(dataJsonObject, isbn);
-//    }
-//    @GetMapping(value = "api/book/{id}", produces = "application/json;charset=UTF-8")
-//    public JSONObject bookIdGet(@PathVariable("id") String id) {
-//        JSONObject dataJsonObject = booksDAO.getJSONData();
-//        return booksDAO.getBookById(dataJsonObject, id);
-//    }
     @GetMapping(value = "api/category/{categoryName}/books", produces = "application/json;charset=UTF-8")
     public JSONArray booksCategoryGet(@PathVariable("categoryName") String categoryName) {
         JSONObject dataJsonObject = booksDAO.getJSONData();

@@ -77,9 +77,7 @@ public class BooksDAOImpl implements BooksDAO{
         {
             bookJsonObject = book.get().toJsonObject();
         }
-
         return bookJsonObject;
-
     }
 
     @Override
