@@ -1,4 +1,4 @@
-package com.Michal.HomeworkTask.DAO;
+package com.Michal.HomeworkTask.dao;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

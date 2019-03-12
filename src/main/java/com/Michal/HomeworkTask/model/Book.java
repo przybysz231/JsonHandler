@@ -1,12 +1,9 @@
-package com.Michal.HomeworkTask.Model;
+package com.Michal.HomeworkTask.model;
 
 
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -27,12 +24,10 @@ public class Book {
     private String[] categories;
     public  Book() {}
 
-    public JSONObject toJsonObject()
-    {
+    public JSONObject toJsonObject() {
         JSONObject jsonObject = new JSONObject();
-
-        if (isbn != null) jsonObject.put("isbn", isbn);
-        if (id != null) jsonObject.put("id", id);
+        if (isbn != null) {jsonObject.put("isbn", isbn); }
+        //if (isbn == null) {jsonObject.put("isbn", id); }
         if (title != null) { jsonObject.put("title", title); }
         if (subtitle != null) { jsonObject.put("subtitle", subtitle); }
         if (publisher != null) { jsonObject.put("publisher", publisher); }
@@ -45,27 +40,6 @@ public class Book {
         if (averageRating != null) { jsonObject.put("averageRating", averageRating); }
         if (authors != null) { jsonObject.put("authors", authors); }
         if (categories != null) { jsonObject.put("categories", categories); }
-
         return jsonObject;
     }
-//    @Override
-//    public String toString()
-//    {
-//        return  "{" +
-//                "isbn='" + isbn +  '\'' +
-//                ", title='" + title + '\'' +
-//                ", subtitle='" + subtitle + '\'' +
-//                ", publisher='" + publisher + '\'' +
-//                ", publishedDate=" + publishedDate +
-//                ", description='" + description + '\'' +
-//                ", pageCount=" + pageCount +
-//                ", thumbnailUrl='" + thumbnailUrl + '\'' +
-//                ", language='" + language + '\'' +
-//                ", previewLink='" + previewLink + '\'' +
-//                ", averageRating=" + averageRating +
-//                ", authors=" + Arrays.toString(authors) +
-//                ", categories=" + Arrays.toString(categories) +
-//                '}';
-//    }
-
 }

@@ -1,6 +1,6 @@
-package com.Michal.HomeworkTask.Utilities;
+package com.Michal.HomeworkTask.utilities;
 
-import com.Michal.HomeworkTask.Model.Book;
+import com.Michal.HomeworkTask.model.Book;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -68,7 +68,6 @@ public class BookUtilities {
 
         return date != null ? date.getTime() : null;
     }
-
     public static List<Book> toBookList(JSONArray bookJsonArray)
     {
         List<Book> bookList = new LinkedList<>();
@@ -77,21 +76,19 @@ public class BookUtilities {
         {
             JSONObject record = (JSONObject) aJsonArray;
             JSONObject volumeInfo = (JSONObject) record.get("volumeInfo");
-
             JSONObject imageLinks = (JSONObject) volumeInfo.get("imageLinks");
             JSONArray industryIdentifiers = (JSONArray) volumeInfo.get("industryIdentifiers");
-
-
             Book book = new Book();
 
             for (Object o : industryIdentifiers)
             {
                 JSONObject industryIdentify = (JSONObject) o;
-                if (industryIdentify.get("type").equals("ISBN_13")) {
+                if (industryIdentify.get("type").equals("ISBN_13"))
                     book.setIsbn((String) industryIdentify.get("identifier"));
-                }
+                    else book.setId((String) record.get("id"));
+
             }
-            book.setId((String) record.get("id"));
+            //book.setId((String) record.get("id"));
             book.setTitle((String) volumeInfo.get("title"));
             book.setSubtitle((String) volumeInfo.get("subtitle"));
             book.setPublisher((String) volumeInfo.get("publisher"));
@@ -106,7 +103,6 @@ public class BookUtilities {
             book.setCategories(BookUtilities.toStringArray((JSONArray) volumeInfo.get("categories")));
             bookList.add(book);
         }
-
         return bookList;
     }
 }
