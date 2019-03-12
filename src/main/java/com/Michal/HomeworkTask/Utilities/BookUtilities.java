@@ -49,7 +49,7 @@ public class BookUtilities {
         }
         catch (NullPointerException e2)
         {
-            LOGGER.warning("NullPointerException #1 EXCEPTION!");
+            //LOGGER.warning("NullPointerException #1 EXCEPTION!");
         }
 
         try
@@ -63,18 +63,12 @@ public class BookUtilities {
         }
         catch (NullPointerException e4)
         {
-            LOGGER.warning("NullPointerException #2 EXCEPTION!");
+           // LOGGER.warning("NullPointerException #2 EXCEPTION!");
         }
 
         return date != null ? date.getTime() : null;
     }
-    public static String toStringDateFormat(Long longDateConversion)
-    {
-        Date date = new Date(longDateConversion);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        return simpleDateFormat.format(date);
-    }
     public static List<Book> toBookList(JSONArray bookJsonArray)
     {
         List<Book> bookList = new LinkedList<>();
@@ -87,19 +81,17 @@ public class BookUtilities {
             JSONObject imageLinks = (JSONObject) volumeInfo.get("imageLinks");
             JSONArray industryIdentifiers = (JSONArray) volumeInfo.get("industryIdentifiers");
 
+
             Book book = new Book();
 
             for (Object o : industryIdentifiers)
             {
                 JSONObject industryIdentify = (JSONObject) o;
-
-                if (industryIdentify.get("type").equals("ISBN_13"))
-                {
+                if (industryIdentify.get("type").equals("ISBN_13")) {
                     book.setIsbn((String) industryIdentify.get("identifier"));
-
-                    break;
                 }
             }
+            book.setId((String) record.get("id"));
             book.setTitle((String) volumeInfo.get("title"));
             book.setSubtitle((String) volumeInfo.get("subtitle"));
             book.setPublisher((String) volumeInfo.get("publisher"));

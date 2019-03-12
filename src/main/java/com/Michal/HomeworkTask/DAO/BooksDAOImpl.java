@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Repository
 public class BooksDAOImpl implements BooksDAO{
     @Override
-
     public JSONObject getJSONData(){
         JSONObject jsonObject;
         try {
@@ -33,28 +32,21 @@ public class BooksDAOImpl implements BooksDAO{
             return null;
         }
     }
-    @Override
-    public JSONArray getBookAll(JSONObject jsonObject) {
-        JSONArray jsonArray = (JSONArray) jsonObject.get("items");
-        return jsonArray;
-    }
+
     @Override
     public JSONObject getBookByIsbn(JSONObject jsonObject, String isbn) {
         JSONObject bookJsonObject = null;
-
         JSONArray jsonArray = (JSONArray) jsonObject.get("items");
         List<Book> bookList = BookUtilities.toBookList(jsonArray);
-
-        Optional<Book> book = bookList.stream().filter(sbBook -> {
+        Optional<Book> book = bookList.stream().filter(Book -> {
 
             boolean isTrue = false;
-            String result = sbBook.getIsbn();
+            String result = Book.getIsbn();
 
             if (result != null && result.equals(isbn))
             {
                 isTrue = true;
             }
-
             return isTrue;
         }).findFirst();
 
@@ -65,6 +57,30 @@ public class BooksDAOImpl implements BooksDAO{
 
         return bookJsonObject;
     }
+    @Override
+    public JSONObject getBookById(JSONObject jsonObject, String id) {
+        JSONObject bookJsonObject = null;
+        JSONArray jsonArray = (JSONArray) jsonObject.get("items");
+        List<Book> bookList = BookUtilities.toBookList(jsonArray);
+        Optional<Book> book = bookList.stream().filter(Book -> {
+
+            boolean isTrue = false;
+            String result = Book.getId();
+            if (result != null && result.equals(id))
+            {
+                isTrue = true;
+            }
+            return isTrue;
+        }).findFirst();
+
+        if (book.isPresent())
+        {
+            bookJsonObject = book.get().toJsonObject();
+        }
+
+        return bookJsonObject;
+
+    }
 
     @Override
     public JSONArray getBooksByCategory(JSONObject jsonObject, String categoryName)
@@ -73,10 +89,10 @@ public class BooksDAOImpl implements BooksDAO{
         JSONArray jsonArray = (JSONArray) jsonObject.get("items");
         List<Book> bookList = BookUtilities.toBookList(jsonArray);
 
-        bookList = bookList.stream().filter(sbBook -> {
+        bookList = bookList.stream().filter(Book -> {
 
             boolean isTrue = false;
-            String[] categories = sbBook.getCategories();
+            String[] categories = Book.getCategories();
 
             if (categories != null)
             {
@@ -132,34 +148,5 @@ public class BooksDAOImpl implements BooksDAO{
         });
 
         return bookJsonArray;
-    }
-
-    @Override
-    public List<String> getBookCategories(JSONObject jsonObject)
-    {
-        JSONArray bookArray = (JSONArray) jsonObject.get("items");
-        List<String> categoryList = new ArrayList<>();
-
-        for (Object o : bookArray)
-        {
-            Book book = new Book();
-            JSONObject object = (JSONObject) o;
-            JSONObject volumeInfo = (JSONObject) object.get("volumeInfo");
-
-            if (volumeInfo != null)
-            {
-                book.setTitle((String) volumeInfo.get("title"));
-                book.setCategories(BookUtilities.toStringArray((JSONArray) volumeInfo.get("categories")));
-                book.setAverageRating((Double) volumeInfo.get("averageRating"));
-                book.setPublishedDate(BookUtilities.toLong((String) volumeInfo.get("publishedDate")));
-            }
-
-            if (book.getCategories() != null)
-            {
-                categoryList.addAll(Arrays.asList(book.getCategories()));
-            }
-        }
-
-        return categoryList.stream().distinct().collect(Collectors.toList());
     }
 }

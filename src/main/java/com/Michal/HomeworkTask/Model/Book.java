@@ -12,6 +12,7 @@ import java.util.Objects;
 @Setter
 public class Book {
     private String isbn;
+    private String id;
     private String title;
     private String subtitle;
     private String publisher;
@@ -30,7 +31,8 @@ public class Book {
     {
         JSONObject jsonObject = new JSONObject();
 
-        if (isbn != null) { jsonObject.put("isbn", isbn); }
+        if (isbn != null) jsonObject.put("isbn", isbn);
+        if (id != null) jsonObject.put("id", id);
         if (title != null) { jsonObject.put("title", title); }
         if (subtitle != null) { jsonObject.put("subtitle", subtitle); }
         if (publisher != null) { jsonObject.put("publisher", publisher); }
@@ -46,55 +48,24 @@ public class Book {
 
         return jsonObject;
     }
-    @Override
-    public String toString()
-    {
-        return  "{" +
-                "isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                ", subtitle='" + subtitle + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", publishedDate=" + publishedDate +
-                ", description='" + description + '\'' +
-                ", pageCount=" + pageCount +
-                ", thumbnailUrl='" + thumbnailUrl + '\'' +
-                ", language='" + language + '\'' +
-                ", previewLink='" + previewLink + '\'' +
-                ", averageRating=" + averageRating +
-                ", authors=" + Arrays.toString(authors) +
-                ", categories=" + Arrays.toString(categories) +
-                '}';
-    }
+//    @Override
+//    public String toString()
+//    {
+//        return  "{" +
+//                "isbn='" + isbn +  '\'' +
+//                ", title='" + title + '\'' +
+//                ", subtitle='" + subtitle + '\'' +
+//                ", publisher='" + publisher + '\'' +
+//                ", publishedDate=" + publishedDate +
+//                ", description='" + description + '\'' +
+//                ", pageCount=" + pageCount +
+//                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+//                ", language='" + language + '\'' +
+//                ", previewLink='" + previewLink + '\'' +
+//                ", averageRating=" + averageRating +
+//                ", authors=" + Arrays.toString(authors) +
+//                ", categories=" + Arrays.toString(categories) +
+//                '}';
+//    }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-        Book book = (Book) o;
-        return Objects.equals(isbn, book.isbn) &&
-                Objects.equals(title, book.title) &&
-                Objects.equals(subtitle, book.subtitle) &&
-                Objects.equals(publisher, book.publisher) &&
-                Objects.equals(publishedDate, book.publishedDate) &&
-                Objects.equals(description, book.description) &&
-                Objects.equals(pageCount, book.pageCount) &&
-                Objects.equals(thumbnailUrl, book.thumbnailUrl) &&
-                Objects.equals(language, book.language) &&
-                Objects.equals(previewLink, book.previewLink) &&
-                Objects.equals(averageRating, book.averageRating) &&
-                Arrays.equals(authors, book.authors) &&
-                Arrays.equals(categories, book.categories);
-    }
-
-    @Override
-    public int hashCode()
-    {
-
-        int result = Objects.hash(isbn, title, subtitle, publisher, publishedDate, description, pageCount, thumbnailUrl,
-                language, previewLink, averageRating);
-        result = 31 * result + Arrays.hashCode(authors);
-        result = 31 * result + Arrays.hashCode(categories);
-        return result;
-    }
 }
