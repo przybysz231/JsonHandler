@@ -15,3 +15,5 @@ selecting books by category (return empty list if no books belong to the categor
 ratings for all the authors in descending order localhost:8080/api/rating
 ******
 
+Notice:
+To have a nice, parsed look JSON Formatter plugin in your browser is recommended
